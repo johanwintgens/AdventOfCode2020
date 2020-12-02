@@ -7,22 +7,28 @@ namespace AdventOfCode2020
     {
         public string Value { get; }
         public char KeyChar { get; }
-        public uint MinOccurrence { get; }
-        public uint MaxOccurrence { get; }
+        public int Index1 { get; }
+        public int Index2 { get; }
 
-        public Password(string value, char keyChar, uint minOccurrence, uint maxOccurrence)
+        public Password(string value, char keyChar, int index1, int index2)
         {
             Value = value;
             KeyChar = keyChar;
-            MinOccurrence = minOccurrence;
-            MaxOccurrence = maxOccurrence;
+            Index1 = index1;
+            Index2 = index2;
         }
 
         public bool IsValid()
         {
-            var occurrence = Value.Count(x => x == KeyChar);
+            int matches = 0;
 
-            return occurrence >= MinOccurrence && occurrence <= MaxOccurrence;
+            if (Value[Index1] == KeyChar)
+                matches++;
+
+            if (Value[Index2] == KeyChar)
+                matches++;
+
+            return matches == 1;
         }
 
         public static Password FromLine(string line)
@@ -30,8 +36,8 @@ namespace AdventOfCode2020
             var spaceSeparated = line.Split(' ');
 
             var limits = spaceSeparated[0].Split('-');
-            var minOccurrence = Convert.ToUInt32(limits[0]);
-            var maxOccurrence = Convert.ToUInt32(limits[1]);
+            var minOccurrence = Convert.ToInt32(limits[0]) - 1;
+            var maxOccurrence = Convert.ToInt32(limits[1]) - 1;
 
             var keyChar = spaceSeparated[1][0];
 
