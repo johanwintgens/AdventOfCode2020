@@ -25,6 +25,7 @@ namespace AdventOfCode2020.Day_3
             };
         }
 
+        public int CountTreesOnSlope(int incrementX, int incrementY) => CountTreesOnSlope(0, 0, incrementX, incrementY);
         public int CountTreesOnSlope(int startX, int startY, int incrementX, int incrementY)
         {
             int x = startX;
