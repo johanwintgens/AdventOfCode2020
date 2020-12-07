@@ -13,7 +13,7 @@ namespace AdventOfCode2020
 
             for (var i = 0; i < seatIds.Count; i++)
             {
-                if(i==0 || i==seatIds.Count-1)
+                if (i == 0 || i == seatIds.Count - 1)
                     continue;
 
                 if (seatIds[i + 1] != seatIds[i] + 1)
@@ -38,14 +38,16 @@ namespace AdventOfCode2020
 
         static int GetColumn(string s)
         {
-            s = s.Substring(7).PadLeft(8, '0');
+            s = s.Substring(7)
+                 .PadLeft(8, '0');
 
             return BinaryToInt(s);
         }
 
         static int GetRow(string s)
         {
-            s = s.Substring(0, 7).PadLeft(8, '0');
+            s = s.Substring(0, 7)
+                 .PadLeft(8, '0');
 
             return BinaryToInt(s);
         }
