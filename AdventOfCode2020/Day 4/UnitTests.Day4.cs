@@ -76,14 +76,10 @@ namespace AdventOfCode2020
 
             var passports = lines.Select(Passport.FromLine).ToList();
 
-            //var validCount = passports.Count(x => x.IsValid());
-
             var sb = new StringBuilder();
 
-            foreach (var p in passports.Where(x=>x.IsValid()))
-            {
+            foreach (var p in passports.Where(x=>x.IsValid())) 
                 sb.AppendLine($"{p.byr} {p.iyr} {p.eyr} {p.hcl} {p.ecl} {p.pid} {p.hgt}");
-            }
 
             var s = sb.ToString();
         }
