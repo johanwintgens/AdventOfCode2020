@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2020.Day_4
 {
@@ -16,13 +18,84 @@ namespace AdventOfCode2020.Day_4
 
         public bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(byr)
-                && !string.IsNullOrWhiteSpace(iyr)
-                && !string.IsNullOrWhiteSpace(eyr)
-                && !string.IsNullOrWhiteSpace(hgt)
-                && !string.IsNullOrWhiteSpace(hcl)
-                && !string.IsNullOrWhiteSpace(ecl)
-                && !string.IsNullOrWhiteSpace(pid);
+            return CheckNumber(byr, 4, 1920, 2020)
+                && CheckNumber(iyr, 4, 2010, 2020)
+                && CheckNumber(eyr, 4, 2020, 2030)
+                && CheckHeight()
+                && CheckHairColor()
+                && CheckEyeColor()
+                && CheckPID();
+        }
+
+        bool CheckNumber(uint number, int minValue, int maxValue)
+        {
+            return number >= minValue && number <= maxValue;
+        }
+
+        bool CheckNumber(string s, uint numOfDigits, int minValue, int maxValue)
+        {
+            if (!uint.TryParse(s, out var number))
+                return false;
+
+            return s.Length == numOfDigits && CheckNumber(number, minValue, maxValue);
+        }
+
+        bool CheckHeight()
+        {
+            if (hgt == null) return false;
+
+            if (hgt.EndsWith("cm"))
+            {
+                if (!uint.TryParse(hgt.Replace("cm", ""), out var number))
+                    return false;
+
+                return CheckNumber(number, 150, 193);
+            }
+
+            if (hgt.EndsWith("in"))
+            {
+                if (!uint.TryParse(hgt.Replace("in", ""), out var number))
+                    return false;
+
+                return CheckNumber(number, 59, 76);
+            }
+
+            return false;
+        }
+
+        bool CheckHairColor()
+        {
+            if (hcl == null) return false;
+
+            var regex = new Regex($"#[a-z0-9]{{6}}");
+
+            return regex.IsMatch(hcl);
+        }
+
+        bool CheckEyeColor()
+        {
+            switch (ecl)
+            {
+                default: return false;
+
+                case "amb":
+                case "blu":
+                case "brn":
+                case "gry":
+                case "grn":
+                case "hzl":
+                case "oth":
+                    return true;
+            }
+        }
+
+        bool CheckPID()
+        {
+            if (!uint.TryParse(pid, out var number)
+             || pid.Length != 9)
+                return false;
+
+            return true;
         }
 
         public static Passport FromLine(string line)
