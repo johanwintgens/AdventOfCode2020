@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2020.Day_4
@@ -18,7 +16,7 @@ namespace AdventOfCode2020.Day_4
 
         public bool IsValid()
         {
-            return CheckNumber(byr, 4, 1920, 2020)
+            return CheckNumber(byr, 4, 1920, 2002)
                 && CheckNumber(iyr, 4, 2010, 2020)
                 && CheckNumber(eyr, 4, 2020, 2030)
                 && CheckHeight()
