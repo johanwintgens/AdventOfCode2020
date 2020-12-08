@@ -14,36 +14,47 @@ namespace AdventOfCode2020
         [Test]
         public void Part1()
         {
-            var lines = ToOneLinePerGroup(allLines).ToList();
+            List<string> lines = ToOneLinePerGroup(allLines, false).ToList();
 
-            var parsed = lines.Select(Duplicates.Remove)
-                              .ToList();
+            List<string> parsed = lines.Select(Duplicates.Remove)
+                                       .ToList();
 
-            var sum = parsed.Sum(x => x.Length);
+            int sum = parsed.Sum(x => x.Length);
 
             Assert.AreNotEqual(0, sum);
         }
 
-        //public void Part2()
-        //{
-
-        //}
-
-
-        IEnumerable<string> ToOneLinePerGroup(string[] allLines)
+        [Test]
+        public void Part2()
         {
-            var sb = new StringBuilder();
+            List<string> lines = ToOneLinePerGroup(allLines, withSpace: true).ToList();
 
-            for (var i = 0; i < allLines.Length; i++)
+            List<int> counts = lines.Select(x => x.Split(' '))
+                                    .Select(Duplicates.Count)
+                                    .ToList();
+
+            int sum = counts.Sum();
+
+            Assert.AreNotEqual(0, sum);
+        }
+
+
+        IEnumerable<string> ToOneLinePerGroup(string[] allLines, bool withSpace)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < allLines.Length; i++)
             {
-                var line = allLines[i];
-                if (string.IsNullOrWhiteSpace(line) || i == allLines.Length-1)
+                string line = allLines[i];
+                if (string.IsNullOrWhiteSpace(line) || i == allLines.Length - 1)
                 {
-                    yield return sb.ToString().Replace(" ", "");
+                    yield return sb.ToString().Trim();
                     sb = new StringBuilder();
                 }
 
                 sb.Append($"{line}");
+
+                if (withSpace) sb.Append(' ');
             }
         }
     }
